@@ -37,6 +37,8 @@ enum charybdis_keycodes {
     SNIPING_MODE_TOGGLE,
     DRAGSCROLL_MODE,
     DRAGSCROLL_MODE_TOGGLE,
+    CARRET_MODE,
+    CARRET_MODE_TOGGLE,
     KEYMAP_SAFE_RANGE,
 };
 #        define CHARYBDIS_SAFE_RANGE KEYMAP_SAFE_RANGE
@@ -48,6 +50,8 @@ enum charybdis_keycodes {
 #        define SNP_TOG SNIPING_MODE_TOGGLE
 #        define DRGSCRL DRAGSCROLL_MODE
 #        define DRG_TOG DRAGSCROLL_MODE_TOGGLE
+#        define CARRETM CARRET_MODE
+#        define CRT_TOG CARRET_MODE_TOGGLE
 
 #ifdef POINTING_DEVICE_ENABLE
 /** \brief Return the current DPI value for the pointer's default mode. */
@@ -115,6 +119,18 @@ bool charybdis_get_pointer_dragscroll_enabled(void);
  * are translated into horizontal and vertical scroll movements.
  */
 void charybdis_set_pointer_dragscroll_enabled(bool enable);
+
+/** \brief Whether carret-mode is enabled. */
+bool charybdis_get_pointer_carret_enabled(void);
+
+/**
+ * \brief Enable/disable carret mode.
+ *
+ * When drag-scroll mode is enabled, horizontal and vertical pointer movements
+ * are translated into horizontal and vertical scroll movements.
+ */
+void charybdis_set_pointer_carret_enabled(bool enable);
+
 #endif  // POINTING_DEVICE_ENABLE
 
 void matrix_init_sub_kb(void);
