@@ -325,8 +325,9 @@ void esctm_finished(qk_tap_dance_state_t *state, void *user_data) {
   sticky_timer = timer_read32();
   switch (td_state) {
   case SINGLE_TAP:
-    charybdis_set_pointer_sniping_enabled(false);
-    charybdis_set_pointer_dragscroll_enabled(false);
+//    charybdis_set_pointer_sniping_enabled(false);
+//    charybdis_set_pointer_dragscroll_enabled(false);
+      charybdis_set_pointer_integ_enabled(!charybdis_get_pointer_integ_enabled());
     tap_code(KC_ESC);
     break;
   case SINGLE_HOLD:

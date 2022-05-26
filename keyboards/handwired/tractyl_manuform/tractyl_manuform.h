@@ -1,4 +1,6 @@
 /* Copyright 2020 Christopher Courtney, aka Drashna Jael're  (@drashna) <drashna@live.com>
+ * 2020 Qurn
+ * 2022 Pascal Jaeger
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -39,6 +41,8 @@ enum charybdis_keycodes {
     DRAGSCROLL_MODE_TOGGLE,
     CARRET_MODE,
     CARRET_MODE_TOGGLE,
+    INTEG_MODE,
+    INTEG_MODE_TOGGLE,
     KEYMAP_SAFE_RANGE,
 };
 #        define CHARYBDIS_SAFE_RANGE KEYMAP_SAFE_RANGE
@@ -52,6 +56,8 @@ enum charybdis_keycodes {
 #        define DRG_TOG DRAGSCROLL_MODE_TOGGLE
 #        define CARRETM CARRET_MODE
 #        define CRT_TOG CARRET_MODE_TOGGLE
+#        define INTEGM INTEG_MODE
+#        define ITG_TOG INTEG_MODE_TOGGLE
 
 #ifdef POINTING_DEVICE_ENABLE
 /** \brief Return the current DPI value for the pointer's default mode. */
@@ -126,10 +132,20 @@ bool charybdis_get_pointer_carret_enabled(void);
 /**
  * \brief Enable/disable carret mode.
  *
- * When drag-scroll mode is enabled, horizontal and vertical pointer movements
- * are translated into horizontal and vertical scroll movements.
+ * When carret mode is enabled, horizontal and vertical pointer movements
+ * are translated into button presses of the arrow keys
  */
 void charybdis_set_pointer_carret_enabled(bool enable);
+
+bool charybdis_get_pointer_integ_enabled(void);
+
+/**
+ * \brief Enable/disable carret mode.
+ *
+ * When integ mode is enabled, the pointer keeps going into the direction
+ * the trackball has been rotated to
+ */
+void charybdis_set_pointer_integ_enabled(bool enable);
 
 #endif  // POINTING_DEVICE_ENABLE
 
