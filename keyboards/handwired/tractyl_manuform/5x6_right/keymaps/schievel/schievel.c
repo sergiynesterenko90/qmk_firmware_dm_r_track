@@ -187,8 +187,10 @@ void alttm_finished(qk_tap_dance_state_t *state, void *user_data) {
   sticky_key = true;
   switch (td_state) {
   case SINGLE_TAP:
-    charybdis_set_pointer_carret_enabled(false);
     charybdis_set_pointer_dragscroll_enabled(true);
+    charybdis_set_pointer_carret_enabled(false);
+    charybdis_set_pointer_custom_enabled(false);
+    charybdis_set_pointer_modemode_enabled(false);
     break;
   case SINGLE_HOLD:
     activate_stkeys();
@@ -212,6 +214,8 @@ void sfttm_finished(qk_tap_dance_state_t *state, void *user_data) {
   case SINGLE_TAP:
     charybdis_set_pointer_dragscroll_enabled(false);
     charybdis_set_pointer_carret_enabled(true);
+    charybdis_set_pointer_custom_enabled(false);
+    charybdis_set_pointer_modemode_enabled(false);
     break;
   case SINGLE_HOLD:
     activate_stkeys();
@@ -233,9 +237,11 @@ void ctltm_finished(qk_tap_dance_state_t *state, void *user_data) {
   sticky_key = true;
   switch (td_state) {
   case SINGLE_TAP:
-    charybdis_set_pointer_sniping_enabled(false);
     charybdis_set_pointer_dragscroll_enabled(false);
     charybdis_set_pointer_carret_enabled(false);
+    charybdis_set_pointer_custom_enabled(false);
+    charybdis_set_pointer_modemode_enabled(false);
+    charybdis_set_pointer_integ_enabled(false);
     break;
   case SINGLE_HOLD:
     activate_stkeys();
@@ -325,9 +331,10 @@ void esctm_finished(qk_tap_dance_state_t *state, void *user_data) {
   sticky_timer = timer_read32();
   switch (td_state) {
   case SINGLE_TAP:
-//    charybdis_set_pointer_sniping_enabled(false);
-//    charybdis_set_pointer_dragscroll_enabled(false);
-      charybdis_set_pointer_integ_enabled(!charybdis_get_pointer_integ_enabled());
+    charybdis_set_pointer_dragscroll_enabled(false);
+    charybdis_set_pointer_carret_enabled(false);
+    charybdis_set_pointer_custom_enabled(false);
+    charybdis_set_pointer_modemode_enabled(false);
     tap_code(KC_ESC);
     break;
   case SINGLE_HOLD:

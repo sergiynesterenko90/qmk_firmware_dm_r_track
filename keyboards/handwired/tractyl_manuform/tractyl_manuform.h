@@ -1,4 +1,4 @@
-/* Copyright 2020 Christopher Courtney, aka Drashna Jael're  (@drashna) <drashna@live.com>
+ /* Copyright 2020 Christopher Courtney, aka Drashna Jael're  (@drashna) <drashna@live.com>
  * 2020 Qurn
  * 2022 Pascal Jaeger
  *
@@ -41,6 +41,10 @@ enum charybdis_keycodes {
     DRAGSCROLL_MODE_TOGGLE,
     CARRET_MODE,
     CARRET_MODE_TOGGLE,
+    CUSTOM_MODE,
+    CUSTOM_MODE_TOGGLE,
+    MODE_MODE,
+    MODE_MODE_TOGGLE,
     INTEG_MODE,
     INTEG_MODE_TOGGLE,
     KEYMAP_SAFE_RANGE,
@@ -56,6 +60,10 @@ enum charybdis_keycodes {
 #        define DRG_TOG DRAGSCROLL_MODE_TOGGLE
 #        define CARRETM CARRET_MODE
 #        define CRT_TOG CARRET_MODE_TOGGLE
+#        define CUSTOMM CUSTOM_MODE
+#        define CST_TOG CUSTOM_MODE_TOGGLE
+#        define MOMO MODE_MODE
+#        define MOMO_TOG MODE_MODE_TOGGLE
 #        define INTEGM INTEG_MODE
 #        define ITG_TOG INTEG_MODE_TOGGLE
 
@@ -136,6 +144,30 @@ bool charybdis_get_pointer_carret_enabled(void);
  * are translated into button presses of the arrow keys
  */
 void charybdis_set_pointer_carret_enabled(bool enable);
+
+bool charybdis_get_pointer_custom_enabled(void);
+
+/**
+ * \brief Enable/disable custom mode.
+ *
+ * When custom mode is enabled, horizontal and vertical pointer movements
+ * are translated into user-defined keycodes.
+ * e.g. when the trackball should trigger the bightness increase button
+ * when rotated to the right, set `#define CUSTOM_FN_RIGHT KC_BRIGHTNESS_UP`
+ */
+void charybdis_set_pointer_custom_enabled(bool enable);
+
+bool charybdis_get_pointer_modemode_enabled(void);
+
+/**
+ * \brief Enable/disable custom mode.
+ *
+ * When custom mode is enabled, horizontal and vertical pointer movements
+ * set the different modes. e.g. up disables every mode and goes back to
+ * pointing mode, right sets dragscroll mode, left sets carret mode and
+ * down sets custom mode.
+ */
+void charybdis_set_pointer_modemode_enabled(bool enable);
 
 bool charybdis_get_pointer_integ_enabled(void);
 
