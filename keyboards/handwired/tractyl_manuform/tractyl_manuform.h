@@ -1,6 +1,6 @@
  /* Copyright 2020 Christopher Courtney, aka Drashna Jael're  (@drashna) <drashna@live.com>
  * 2020 Qurn
- * 2022 Pascal Jaeger
+ * 2022 Pascal Jaeger / Schievel https://github.com/Schievel1/
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

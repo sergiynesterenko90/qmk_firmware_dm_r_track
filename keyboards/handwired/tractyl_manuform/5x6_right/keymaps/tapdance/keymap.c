@@ -1,4 +1,4 @@
-/* Copyright 2022 Pascal Jaeger
+/* Copyright 2022 Pascal Jaeger / Schievel https://github.com/Schievel1/
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
  */
 
 #include QMK_KEYBOARD_H
-#include "schievel.h"
+#include "tapdance.h"
 
 enum custom_layers {
     _DVORAK,
