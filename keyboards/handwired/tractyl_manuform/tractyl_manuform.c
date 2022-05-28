@@ -239,7 +239,7 @@ void tap_tb(uint8_t keycode0, uint8_t keycode1, uint8_t keycode2, uint8_t keycod
 /**
  * \brief Add optional acceleration effect.
  *
- * If `CHARYBDIS_ENABLE_POINTER_ACCELERATION` is defined, add a simple and naive
+ * If `CHARYBDIS_POINTER_ACCELERATION_ENABLE` is defined, add a simple and naive
  * acceleration effect to the provided value.  Return the value unchanged
  * otherwise.
  */
@@ -258,42 +258,6 @@ void tap_code_fast(uint8_t code) {
 
 int max(int num1, int num2) { return (num1 > num2) ? num1 : num2; }
 int min(int num1, int num2) { return (num1 > num2) ? num2 : num1; }
-
-/* void tap_tb(uint8_t keycode0, uint8_t keycode1, uint8_t keycode2, uint8_t keycode3, int16_t *move_buffer_x, int16_t *move_buffer_y) { */
-/*     uint16_t local_carret_dpi = g_charybdis_config.is_integ_enabled? CHARYBDIS_CARRET_BUFFER * 20 : CHARYBDIS_CARRET_BUFFER; */
-/* 	local_carret_dpi = g_charybdis_config.is_sniping_enabled? local_carret_dpi : local_carret_dpi / 4; */
-/*     if (abs(*move_buffer_x) + abs(*move_buffer_y) >= local_carret_dpi) { */
-/*         if (abs(*move_buffer_x) > abs(*move_buffer_y)) { */
-/*             if (*move_buffer_x > 0) { */
-/*                 for (int8_t i = 0; i <= (abs(*move_buffer_x) + abs(*move_buffer_y)) / local_carret_dpi; i++) { */
-/*                     tap_code_fast(keycode0); */
-/*                     *move_buffer_x = max(*move_buffer_x - local_carret_dpi, 0); */
-/*                 } */
-/*                 *move_buffer_y = 0; */
-/*             } else { */
-/*                 for (int8_t i = 0; i <= (abs(*move_buffer_x) + abs(*move_buffer_y)) / local_carret_dpi; i++) { */
-/*                     tap_code_fast(keycode1); */
-/*                     *move_buffer_x = min(*move_buffer_x + local_carret_dpi, 0); */
-/*                 } */
-/*                 *move_buffer_y = 0; */
-/*             } */
-/*         } else { */
-/*             if (*move_buffer_y > 0) { */
-/*                 for (int8_t i = 0; i <= (abs(*move_buffer_x) + abs(*move_buffer_y)) / local_carret_dpi; i++) { */
-/*                     tap_code_fast(keycode2); */
-/*                     *move_buffer_y = max(*move_buffer_y - local_carret_dpi, 0); */
-/*                 } */
-/*                 *move_buffer_x = 0; */
-/*             } else { */
-/*                 for (int8_t i = 0; i <= (abs(*move_buffer_x) + abs(*move_buffer_y)) / local_carret_dpi; i++) { */
-/*                     tap_code_fast(keycode3); */
-/*                     *move_buffer_y = min(*move_buffer_y + local_carret_dpi, 0); */
-/*                 } */
-/*                 *move_buffer_x = 0; */
-/*             } */
-/*         } */
-/*     } */
-/* } */
 
 void tap_tb(uint8_t keycode0, uint8_t keycode1, uint8_t keycode2, uint8_t keycode3, int16_t *move_buffer_x, int16_t *move_buffer_y) {
     uint16_t local_carret_dpi = g_charybdis_config.is_integ_enabled? CHARYBDIS_CARRET_BUFFER * 20 : CHARYBDIS_CARRET_BUFFER;
