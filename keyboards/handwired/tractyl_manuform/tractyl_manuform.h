@@ -179,6 +179,14 @@ bool charybdis_get_pointer_integ_enabled(void);
  */
 void charybdis_set_pointer_integ_enabled(bool enable);
 
+/**
+ * \brief Enable/disable carret mode.
+ *
+ * Disable non-stacking pointer modes. Modes that should not
+ * stack are dragscroll, carret, custom and mode-mode.
+ * */
+void charybdis_set_pointer_disable_nonstacking(void);
+
 #endif  // POINTING_DEVICE_ENABLE
 
 void matrix_init_sub_kb(void);

@@ -187,6 +187,7 @@ void charybdis_set_pointer_sniping_enabled(bool enable) {
 bool charybdis_get_pointer_dragscroll_enabled(void) { return g_charybdis_config.is_dragscroll_enabled; }
 
 void charybdis_set_pointer_dragscroll_enabled(bool enable) {
+	charybdis_set_pointer_disable_nonstacking();
     g_charybdis_config.is_dragscroll_enabled = enable;
     maybe_update_pointing_device_cpi(&g_charybdis_config);
 }
@@ -194,6 +195,7 @@ void charybdis_set_pointer_dragscroll_enabled(bool enable) {
 bool charybdis_get_pointer_carret_enabled(void) { return g_charybdis_config.is_carret_enabled; }
 
 void charybdis_set_pointer_carret_enabled(bool enable) {
+	charybdis_set_pointer_disable_nonstacking();
     g_charybdis_config.is_carret_enabled = enable;
     maybe_update_pointing_device_cpi(&g_charybdis_config);
 }
@@ -201,6 +203,7 @@ void charybdis_set_pointer_carret_enabled(bool enable) {
 bool charybdis_get_pointer_custom_enabled(void) { return g_charybdis_config.is_custom_enabled; }
 
 void charybdis_set_pointer_custom_enabled(bool enable) {
+	charybdis_set_pointer_disable_nonstacking();
     g_charybdis_config.is_custom_enabled = enable;
     maybe_update_pointing_device_cpi(&g_charybdis_config);
 }
@@ -217,6 +220,13 @@ bool charybdis_get_pointer_integ_enabled(void) { return g_charybdis_config.is_in
 void charybdis_set_pointer_integ_enabled(bool enable) {
     g_charybdis_config.is_integ_enabled = enable;
     maybe_update_pointing_device_cpi(&g_charybdis_config);
+}
+
+void charybdis_set_pointer_disable_nonstacking(void) {
+    g_charybdis_config.is_dragscroll_enabled = false;
+    g_charybdis_config.is_carret_enabled = false;
+    g_charybdis_config.is_custom_enabled = false;
+    /* maybe_update_pointing_device_cpi(&g_charybdis_config); */
 }
 
 void pointing_device_init_kb(void) { maybe_update_pointing_device_cpi(&g_charybdis_config); }
@@ -291,17 +301,15 @@ void tap_modes(int16_t *move_buffer_x, int16_t *move_buffer_y) {
         if (abs(*move_buffer_x) > abs(*move_buffer_y)) {
             if (*move_buffer_x > 0) {
                 for (int8_t i = 0; i <= (abs(*move_buffer_x) + abs(*move_buffer_y)) / CHARYBDIS_CARRET_BUFFER; i++) {
+					charybdis_set_pointer_disable_nonstacking();
 					charybdis_set_pointer_dragscroll_enabled(true);
-					charybdis_set_pointer_carret_enabled(false);
-					charybdis_set_pointer_custom_enabled(false);
                     *move_buffer_x = max(*move_buffer_x - CHARYBDIS_CARRET_BUFFER, 0);
                 }
                 *move_buffer_y = 0;
             } else {
                 for (int8_t i = 0; i <= (abs(*move_buffer_x) + abs(*move_buffer_y)) / CHARYBDIS_CARRET_BUFFER; i++) {
-					charybdis_set_pointer_dragscroll_enabled(false);
+					charybdis_set_pointer_disable_nonstacking();
 					charybdis_set_pointer_carret_enabled(true);
-					charybdis_set_pointer_custom_enabled(false);
                     *move_buffer_x = min(*move_buffer_x + CHARYBDIS_CARRET_BUFFER, 0);
                 }
                 *move_buffer_y = 0;
@@ -309,10 +317,8 @@ void tap_modes(int16_t *move_buffer_x, int16_t *move_buffer_y) {
         } else {
             if (*move_buffer_y > 0) {
                 for (int8_t i = 0; i <= (abs(*move_buffer_x) + abs(*move_buffer_y)) / CHARYBDIS_CARRET_BUFFER; i++) {
+					charybdis_set_pointer_disable_nonstacking();
 					charybdis_set_pointer_integ_enabled(false);
-					charybdis_set_pointer_dragscroll_enabled(false);
-					charybdis_set_pointer_carret_enabled(false);
-					charybdis_set_pointer_custom_enabled(false);
                     *move_buffer_y = max(*move_buffer_y - CHARYBDIS_CARRET_BUFFER, 0);
                 }
                 *move_buffer_x = 0;

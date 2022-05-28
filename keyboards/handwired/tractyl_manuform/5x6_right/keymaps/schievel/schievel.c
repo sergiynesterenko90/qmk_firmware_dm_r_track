@@ -53,55 +53,6 @@ static td_state_t td_state;
 // function to determine the current tapdance state
 int cur_dance(qk_tap_dance_state_t *state);
 
-/* /\*************************** */
-/*  * Mouse pressed */
-/*  **************************\/ */
-
-/* void on_mouse_button(uint8_t mouse_button, bool pressed) { */
-/*   report_mouse_t report = pointing_device_get_report(); */
-
-/*   if (pressed) */
-/*     report.buttons |= mouse_button; */
-/*   else */
-/*     report.buttons &= ~mouse_button; */
-/*   pointing_device_set_report(report); */
-/*   pointing_device_send(); */
-/* } */
-
-/* /\*************************** */
-/*  * Combos */
-/*  **************************\/ */
-
-/* enum combos_events { RS_MOUSE, ST_MOUSE, RT_MOUSE }; */
-
-/* const uint16_t PROGMEM rsm_combo[] = {KC_R, KC_S, COMBO_END}; */
-/* const uint16_t PROGMEM stm_combo[] = {KC_S, KC_T, COMBO_END}; */
-/* const uint16_t PROGMEM rtm_combo[] = {KC_R, KC_T, COMBO_END}; */
-
-/* combo_t key_combos[COMBO_COUNT] = { */
-/*   [RS_MOUSE] = COMBO_ACTION(rsm_combo), */
-/*   [ST_MOUSE] = COMBO_ACTION(stm_combo), */
-/*   [RT_MOUSE] = COMBO_ACTION(rtm_combo), */
-/* }; */
-
-/* void process_combo_event(uint16_t combo_index, bool pressed) { */
-/*   switch (combo_index) { */
-/*   case RS_MOUSE: */
-/*     on_mouse_button(MOUSE_BTN2, pressed); */
-/*     break; */
-/*   case ST_MOUSE: */
-/*     on_mouse_button(MOUSE_BTN1, pressed); */
-/*     break; */
-/*   case RT_MOUSE: */
-/*     on_mouse_button(MOUSE_BTN3, pressed); */
-/*     break; */
-/*   } */
-/* } */
-
-/***************************
- * Tap dance 2 of 2
- **************************/
-
 // determine the tapdance state to return
 int cur_dance(qk_tap_dance_state_t *state) {
   if (state->count == 1) {
@@ -188,9 +139,6 @@ void alttm_finished(qk_tap_dance_state_t *state, void *user_data) {
   switch (td_state) {
   case SINGLE_TAP:
     charybdis_set_pointer_dragscroll_enabled(true);
-    charybdis_set_pointer_carret_enabled(false);
-    charybdis_set_pointer_custom_enabled(false);
-    charybdis_set_pointer_modemode_enabled(false);
     break;
   case SINGLE_HOLD:
     activate_stkeys();
@@ -212,10 +160,7 @@ void sfttm_finished(qk_tap_dance_state_t *state, void *user_data) {
   sticky_key = true;
   switch (td_state) {
   case SINGLE_TAP:
-    charybdis_set_pointer_dragscroll_enabled(false);
     charybdis_set_pointer_carret_enabled(true);
-    charybdis_set_pointer_custom_enabled(false);
-    charybdis_set_pointer_modemode_enabled(false);
     break;
   case SINGLE_HOLD:
     activate_stkeys();
@@ -237,11 +182,8 @@ void ctltm_finished(qk_tap_dance_state_t *state, void *user_data) {
   sticky_key = true;
   switch (td_state) {
   case SINGLE_TAP:
-    charybdis_set_pointer_dragscroll_enabled(false);
-    charybdis_set_pointer_carret_enabled(false);
-    charybdis_set_pointer_custom_enabled(false);
-    charybdis_set_pointer_modemode_enabled(false);
     charybdis_set_pointer_integ_enabled(false);
+    charybdis_set_pointer_disable_nonstacking();
     break;
   case SINGLE_HOLD:
     activate_stkeys();
@@ -331,10 +273,7 @@ void esctm_finished(qk_tap_dance_state_t *state, void *user_data) {
   sticky_timer = timer_read32();
   switch (td_state) {
   case SINGLE_TAP:
-    charybdis_set_pointer_dragscroll_enabled(false);
-    charybdis_set_pointer_carret_enabled(false);
-    charybdis_set_pointer_custom_enabled(false);
-    charybdis_set_pointer_modemode_enabled(false);
+    charybdis_set_pointer_disable_nonstacking();
     tap_code(KC_ESC);
     break;
   case SINGLE_HOLD:
