@@ -52,7 +52,7 @@
 
 // Fixed DPI for carret.
 #    ifndef CHARYBDIS_CARRET_BUFFER
-#        define CHARYBDIS_CARRET_BUFFER 25
+#        define CHARYBDIS_CARRET_BUFFER 40
 #    endif  // CHARYBDIS_CARRET_BUFFER
 
 #    ifndef CHARYBDIS_POINTER_ACCELERATION_FACTOR
@@ -95,7 +95,7 @@ static charybdis_config_t g_charybdis_config = {0};
 /**
  * \brief Set the value of `config` from EEPROM.
  *
- * Note that `is_dragscroll_enabled`, `is_sniping_enabled`,`is_carret_enabled` and `is_integ_enabled` are purposefully
+ * Note that `is_dragscroll_enabled`, `is_sniping_enabled` etc. are purposefully
  * ignored since we do not want to persist this state to memory.  In practice,
  * this state is always written to maximize write-performances.  Therefore, we
  * explicitly set them to `false` in this function.
@@ -226,7 +226,6 @@ void charybdis_set_pointer_disable_nonstacking(void) {
     g_charybdis_config.is_dragscroll_enabled = false;
     g_charybdis_config.is_carret_enabled = false;
     g_charybdis_config.is_custom_enabled = false;
-    /* maybe_update_pointing_device_cpi(&g_charybdis_config); */
 }
 
 void pointing_device_init_kb(void) { maybe_update_pointing_device_cpi(&g_charybdis_config); }
@@ -260,77 +259,115 @@ void tap_code_fast(uint8_t code) {
 int max(int num1, int num2) { return (num1 > num2) ? num1 : num2; }
 int min(int num1, int num2) { return (num1 > num2) ? num2 : num1; }
 
+/* void tap_tb(uint8_t keycode0, uint8_t keycode1, uint8_t keycode2, uint8_t keycode3, int16_t *move_buffer_x, int16_t *move_buffer_y) { */
+/*     uint16_t local_carret_dpi = g_charybdis_config.is_integ_enabled? CHARYBDIS_CARRET_BUFFER * 20 : CHARYBDIS_CARRET_BUFFER; */
+/* 	local_carret_dpi = g_charybdis_config.is_sniping_enabled? local_carret_dpi : local_carret_dpi / 4; */
+/*     if (abs(*move_buffer_x) + abs(*move_buffer_y) >= local_carret_dpi) { */
+/*         if (abs(*move_buffer_x) > abs(*move_buffer_y)) { */
+/*             if (*move_buffer_x > 0) { */
+/*                 for (int8_t i = 0; i <= (abs(*move_buffer_x) + abs(*move_buffer_y)) / local_carret_dpi; i++) { */
+/*                     tap_code_fast(keycode0); */
+/*                     *move_buffer_x = max(*move_buffer_x - local_carret_dpi, 0); */
+/*                 } */
+/*                 *move_buffer_y = 0; */
+/*             } else { */
+/*                 for (int8_t i = 0; i <= (abs(*move_buffer_x) + abs(*move_buffer_y)) / local_carret_dpi; i++) { */
+/*                     tap_code_fast(keycode1); */
+/*                     *move_buffer_x = min(*move_buffer_x + local_carret_dpi, 0); */
+/*                 } */
+/*                 *move_buffer_y = 0; */
+/*             } */
+/*         } else { */
+/*             if (*move_buffer_y > 0) { */
+/*                 for (int8_t i = 0; i <= (abs(*move_buffer_x) + abs(*move_buffer_y)) / local_carret_dpi; i++) { */
+/*                     tap_code_fast(keycode2); */
+/*                     *move_buffer_y = max(*move_buffer_y - local_carret_dpi, 0); */
+/*                 } */
+/*                 *move_buffer_x = 0; */
+/*             } else { */
+/*                 for (int8_t i = 0; i <= (abs(*move_buffer_x) + abs(*move_buffer_y)) / local_carret_dpi; i++) { */
+/*                     tap_code_fast(keycode3); */
+/*                     *move_buffer_y = min(*move_buffer_y + local_carret_dpi, 0); */
+/*                 } */
+/*                 *move_buffer_x = 0; */
+/*             } */
+/*         } */
+/*     } */
+/* } */
+
 void tap_tb(uint8_t keycode0, uint8_t keycode1, uint8_t keycode2, uint8_t keycode3, int16_t *move_buffer_x, int16_t *move_buffer_y) {
     uint16_t local_carret_dpi = g_charybdis_config.is_integ_enabled? CHARYBDIS_CARRET_BUFFER * 20 : CHARYBDIS_CARRET_BUFFER;
 	local_carret_dpi = g_charybdis_config.is_sniping_enabled? local_carret_dpi : local_carret_dpi / 4;
-    if (abs(*move_buffer_x) + abs(*move_buffer_y) >= local_carret_dpi) {
-        if (abs(*move_buffer_x) > abs(*move_buffer_y)) {
-            if (*move_buffer_x > 0) {
-                for (int8_t i = 0; i <= (abs(*move_buffer_x) + abs(*move_buffer_y)) / local_carret_dpi; i++) {
-                    tap_code_fast(keycode0);
-                    *move_buffer_x = max(*move_buffer_x - local_carret_dpi, 0);
-                }
-                *move_buffer_y = 0;
-            } else {
-                for (int8_t i = 0; i <= (abs(*move_buffer_x) + abs(*move_buffer_y)) / local_carret_dpi; i++) {
-                    tap_code_fast(keycode1);
-                    *move_buffer_x = min(*move_buffer_x + local_carret_dpi, 0);
-                }
-                *move_buffer_y = 0;
-            }
-        } else {
-            if (*move_buffer_y > 0) {
-                for (int8_t i = 0; i <= (abs(*move_buffer_x) + abs(*move_buffer_y)) / local_carret_dpi; i++) {
-                    tap_code_fast(keycode2);
-                    *move_buffer_y = max(*move_buffer_y - local_carret_dpi, 0);
-                }
-                *move_buffer_x = 0;
-            } else {
-                for (int8_t i = 0; i <= (abs(*move_buffer_x) + abs(*move_buffer_y)) / local_carret_dpi; i++) {
-                    tap_code_fast(keycode3);
-                    *move_buffer_y = min(*move_buffer_y + local_carret_dpi, 0);
-                }
-                *move_buffer_x = 0;
-            }
-        }
-    }
+    if (abs(*move_buffer_x) + abs(*move_buffer_y) < local_carret_dpi) { return; }
+    if ((abs(*move_buffer_x) > abs(*move_buffer_y)) && (*move_buffer_x > 0)) {
+		for (int8_t i = 0; i <= (abs(*move_buffer_x) + abs(*move_buffer_y)) / local_carret_dpi; i++) {
+			tap_code_fast(keycode0);
+			*move_buffer_x = max(*move_buffer_x - local_carret_dpi, 0);
+		}
+		*move_buffer_y = 0;
+		return;
+	}
+    if ((abs(*move_buffer_x) > abs(*move_buffer_y)) && (*move_buffer_x <= 0)) {
+		for (int8_t i = 0; i <= (abs(*move_buffer_x) + abs(*move_buffer_y)) / local_carret_dpi; i++) {
+			tap_code_fast(keycode1);
+			*move_buffer_x = min(*move_buffer_x + local_carret_dpi, 0);
+		}
+		*move_buffer_y = 0;
+		return;
+	}
+    if ((abs(*move_buffer_x) <= abs(*move_buffer_y)) && (*move_buffer_y > 0)) {
+        for (int8_t i = 0; i <= (abs(*move_buffer_x) + abs(*move_buffer_y)) / local_carret_dpi; i++) {
+			tap_code_fast(keycode2);
+			*move_buffer_y = max(*move_buffer_y - local_carret_dpi, 0);
+		}
+		*move_buffer_x = 0;
+		return;
+	}
+    if ((abs(*move_buffer_x) <= abs(*move_buffer_y)) && (*move_buffer_y <= 0)) {
+		for (int8_t i = 0; i <= (abs(*move_buffer_x) + abs(*move_buffer_y)) / local_carret_dpi; i++) {
+			tap_code_fast(keycode3);
+			*move_buffer_y = min(*move_buffer_y + local_carret_dpi, 0);
+		}
+		*move_buffer_x = 0;
+		return;
+	}
 }
 
 void tap_modes(int16_t *move_buffer_x, int16_t *move_buffer_y) {
-    if (abs(*move_buffer_x) + abs(*move_buffer_y) >= CHARYBDIS_CARRET_BUFFER) {
-        if (abs(*move_buffer_x) > abs(*move_buffer_y)) {
-            if (*move_buffer_x > 0) {
-                for (int8_t i = 0; i <= (abs(*move_buffer_x) + abs(*move_buffer_y)) / CHARYBDIS_CARRET_BUFFER; i++) {
-					charybdis_set_pointer_disable_nonstacking();
-					charybdis_set_pointer_dragscroll_enabled(true);
-                    *move_buffer_x = max(*move_buffer_x - CHARYBDIS_CARRET_BUFFER, 0);
-                }
-                *move_buffer_y = 0;
-            } else {
-                for (int8_t i = 0; i <= (abs(*move_buffer_x) + abs(*move_buffer_y)) / CHARYBDIS_CARRET_BUFFER; i++) {
-					charybdis_set_pointer_disable_nonstacking();
-					charybdis_set_pointer_carret_enabled(true);
-                    *move_buffer_x = min(*move_buffer_x + CHARYBDIS_CARRET_BUFFER, 0);
-                }
-                *move_buffer_y = 0;
-            }
-        } else {
-            if (*move_buffer_y > 0) {
-                for (int8_t i = 0; i <= (abs(*move_buffer_x) + abs(*move_buffer_y)) / CHARYBDIS_CARRET_BUFFER; i++) {
-					charybdis_set_pointer_disable_nonstacking();
-					charybdis_set_pointer_integ_enabled(false);
-                    *move_buffer_y = max(*move_buffer_y - CHARYBDIS_CARRET_BUFFER, 0);
-                }
-                *move_buffer_x = 0;
-            } else {
-                for (int8_t i = 0; i <= (abs(*move_buffer_x) + abs(*move_buffer_y)) / CHARYBDIS_CARRET_BUFFER; i++) {
-					charybdis_set_pointer_integ_enabled(true);
-                    *move_buffer_y = min(*move_buffer_y + CHARYBDIS_CARRET_BUFFER, 0);
-                }
-                *move_buffer_x = 0;
-            }
-        }
-    }
+    if (abs(*move_buffer_x) + abs(*move_buffer_y) < CHARYBDIS_CARRET_BUFFER) { return; }
+    if ((abs(*move_buffer_x) > abs(*move_buffer_y)) && (*move_buffer_x > 0)) {
+		for (int8_t i = 0; i <= (abs(*move_buffer_x) + abs(*move_buffer_y)) / CHARYBDIS_CARRET_BUFFER; i++) {
+			charybdis_set_pointer_dragscroll_enabled(true);
+			*move_buffer_x = max(*move_buffer_x - CHARYBDIS_CARRET_BUFFER, 0);
+		}
+		*move_buffer_y = 0;
+		return;
+	}
+    if ((abs(*move_buffer_x) > abs(*move_buffer_y)) && (*move_buffer_x <= 0)) {
+		for (int8_t i = 0; i <= (abs(*move_buffer_x) + abs(*move_buffer_y)) / CHARYBDIS_CARRET_BUFFER; i++) {
+			charybdis_set_pointer_carret_enabled(true);
+			*move_buffer_x = min(*move_buffer_x + CHARYBDIS_CARRET_BUFFER, 0);
+		}
+		*move_buffer_y = 0;
+		return;
+	}
+    if ((abs(*move_buffer_x) <= abs(*move_buffer_y)) && (*move_buffer_y > 0)) {
+        for (int8_t i = 0; i <= (abs(*move_buffer_x) + abs(*move_buffer_y)) / CHARYBDIS_CARRET_BUFFER; i++) {
+			charybdis_set_pointer_disable_nonstacking();
+			charybdis_set_pointer_integ_enabled(false);
+			*move_buffer_y = max(*move_buffer_y - CHARYBDIS_CARRET_BUFFER, 0);
+		}
+		*move_buffer_x = 0;
+		return;
+	}
+    if ((abs(*move_buffer_x) <= abs(*move_buffer_y)) && (*move_buffer_y <= 0)) {
+		for (int8_t i = 0; i <= (abs(*move_buffer_x) + abs(*move_buffer_y)) / CHARYBDIS_CARRET_BUFFER; i++) {
+			charybdis_set_pointer_integ_enabled(true);
+			*move_buffer_y = min(*move_buffer_y + CHARYBDIS_CARRET_BUFFER, 0);
+		}
+		*move_buffer_x = 0;
+		return;
+	}
 }
 
 /**
