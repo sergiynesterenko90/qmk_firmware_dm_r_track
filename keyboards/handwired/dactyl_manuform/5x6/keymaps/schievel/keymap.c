@@ -42,3 +42,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                  _______,_______,             _______,_______
     )
 };
+
+
+const key_override_t lbrace_key_override =
+    ko_make_basic(MOD_MASK_SHIFT, KC_LCBR, KC_LBRC);  // Shift { is [
+const key_override_t rbrace_key_override =
+    ko_make_basic(MOD_MASK_SHIFT, KC_RCBR, KC_RBRC); // Shift } is ]
+
+const key_override_t** key_overrides = (const key_override_t*[]){
+    &lbrace_key_override,
+    &rbrace_key_override,
+    NULL
+};
