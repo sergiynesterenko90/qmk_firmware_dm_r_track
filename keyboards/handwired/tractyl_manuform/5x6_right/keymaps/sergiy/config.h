@@ -1,0 +1,3 @@
+// Flip the scroll y axis
+#define CHARYBDIS_DRAGSCROLL_REVERSE_Y
+#define CHARYBDIS_CARRET_REVERSE_Y
