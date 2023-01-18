@@ -41,8 +41,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      KC_LCTL, KC_Z  , KC_X  , KC_C  , KC_V  , KC_B  ,                         KC_N  , KC_M  ,KC_COMM,KC_DOT ,LAYER_F3,KC_BSLASH,
                       KC_LBRC,KC_RBRC,                                                       KC_EQL, KC_SLSH,
                                       LAYER_F2,KC_SPC,                                    LAYER_F1,
-                                      KC_TAB,KC_HOME,                                  KC_DEL,
-                                      KC_BSPC, KC_GRV,                        KC_LGUI, KC_ENT
+                                      KC_TAB,KC_HOME,                                  KC_ENT,
+                                      KC_BSPC, KC_GRV,                        KC_LGUI, KC_DEL
   ),
 
   [_LAYER_F1] = LAYOUT_5x6_right(
@@ -70,9 +70,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_LAYER_F3] = LAYOUT_5x6_right(
        _______,_______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,_______,
-       _______,_______,_______,_______,_______,_______,                        _______,CARRET_MODE_TOGGLE,DRAGSCROLL_MODE,_______,_______,_______,
+       _______,_______,_______,_______,_______,_______,                        _______,CARRET_MODE,DRAGSCROLL_MODE,SNIPING,_______,_______,
        _______,_______,_______,_______,_______,_______,                        KC_WWW_BACK,KC_MS_BTN1,KC_MS_BTN2,KC_WWW_FORWARD,_______,_______,
-       _______,_______,_______,_______,_______,_______,                        _______,SNIPING,_______,_______,_______,_______,
+       _______,_______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,_______,
                        _______,_______,                                                        _______ ,_______,
                                                _______,_______,                _______,
                                                _______,_______,                _______,

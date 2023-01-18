@@ -79,8 +79,8 @@
 typedef union {
     uint8_t raw;
     struct {
-        uint8_t pointer_default_dpi : 4;  // 16 steps available.
-        uint8_t pointer_sniping_dpi : 2;  // 4 steps available.
+        uint8_t pointer_default_dpi : 8;  // 16 steps available.
+        uint8_t pointer_sniping_dpi : 1;  // 4 steps available.
         bool    is_dragscroll_enabled : 1;
         bool    is_sniping_enabled : 1;
 		bool    is_carret_enabled : 1;
