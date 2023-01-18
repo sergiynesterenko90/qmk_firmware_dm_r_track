@@ -28,8 +28,7 @@ enum custom_layers {
 
 #define LAYER_F1 MO(_LAYER_F1)
 #define LAYER_F2 MO(_LAYER_F2)
-#define LAYER_F3 TG(_LAYER_F3)
-
+#define LAYER_F3 MO(_LAYER_F3)
 
 // Key code definitions:
 // https://github.com/qmk/qmk_firmware/blob/master/docs/keycodes.md
